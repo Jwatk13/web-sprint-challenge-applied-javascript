@@ -36,9 +36,6 @@ const Card = (article) => {
   cardAuthorName.textContent = article.authorName;
   cardImg.src = article.authorPhoto;
   
-  
-  
-
   cardsWrapper.appendChild(cardHeadline);
   cardsWrapper.appendChild(cardAuthor);
   cardAuthor.appendChild(cardImgContainer);
@@ -73,7 +70,7 @@ const cardAppender = (selector) => {
       const apiData = res.data.articles.javascript.concat(res.data.articles.bootstrap.concat(res.data.articles.node.concat(res.data.articles.technology.concat(res.data.articles.jquery))));
       console.log(apiData)
       apiData.forEach(card => {
-        document.querySelector(selector).appendChild(Card(card));
+        document.querySelector(selector).appendChild(Card(card));//Rememberd finally that I needed to append a 'Card' to the DOM for each one of the articles. I had been trying to append only one 'Card' and have every article within it....learning curve...
       })
       
       })
