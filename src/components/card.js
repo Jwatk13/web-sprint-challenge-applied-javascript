@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -7,6 +8,7 @@ const Card = (article) => {
   // The tags used, the hierarchy of elements and their attributes must match the provided markup exactly!
   // The text inside elements will be set using their `textContent` property (NOT `innerText`).
   // Add a listener for click events so that when a user clicks on a card, the headline of the article is logged to the console.
+
   //
   // <div class="card">
   //   <div class="headline">{ headline }</div>
@@ -27,11 +29,15 @@ const Card = (article) => {
 
   cardsWrapper.classList.add("card");
   cardHeadline.classList.add("headline");
-  cardHeadline.textContent = article.headline;
   cardAuthor.classList.add("author");
   cardImgContainer.classList.add("img-container");
-  cardImg.src = article.authorPhoto;
+
+  cardHeadline.textContent = article.headline;
   cardAuthorName.textContent = article.authorName;
+  cardImg.src = article.authorPhoto;
+  
+  
+  
 
   cardsWrapper.appendChild(cardHeadline);
   cardsWrapper.appendChild(cardAuthor);
@@ -43,19 +49,10 @@ const Card = (article) => {
     console.log(cardHeadline);
   })
 
-  for (let i = 0; i < article.length; i++) {
-    cardHeadline.textContent = article[i][0].headline;
-    cardImg.src = article[i][0].authorPhoto;
-    cardAuthorName.textContent = article[i][0].authorName; 
   
-  }
+  
 
-  for (let i = 0; i < article.length; i++) {
-    cardHeadline.textContent = article[i][1].headline;
-    cardImg.src = article[i][1].authorPhoto;
-    cardAuthorName.textContent = article[i][1].authorName; 
-  
-  }
+  console.log(article)
 
   return cardsWrapper;
 }
@@ -69,24 +66,20 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
-  
-  axios.get(`http://localhost:5001/api/articles`)
+
+  axios.get(`http://localhost:5001/api/articles/`)
     .then((res) => {
-      const articleApiData = res.data.articles;
-      const articleDataOrganized = Object.values(articleApiData);
-      articleDataOrganized.forEach(element => {
-        const newArray1 = Array(element);
-        Card({article: element})
-        console.log(newArray1);
-        document.querySelector(selector).appendChild(Card(newArray1));
-      });
-        
-        // console.log(articleDataOrganized)
+      // console.log(res.data.articles);
+      const apiData = res.data.articles.javascript.concat(res.data.articles.bootstrap.concat(res.data.articles.node.concat(res.data.articles.technology.concat(res.data.articles.jquery))));
+      console.log(apiData)
+      apiData.forEach(card => {
+        document.querySelector(selector).appendChild(Card(card));
       })
-     
-      .catch((err) => {
-        console.error(err);
+      
       })
+    .catch((err) => {
+      console.error(err);
+    })
 }
 
 export { Card, cardAppender }
